@@ -1,6 +1,5 @@
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
-import Partners from "./sections/Partners";
 import About from "./sections/About";
 import Gallery from "./sections/Gallery";
 import CTA from "./sections/CTA";
@@ -11,7 +10,6 @@ export default function Home() {
     <main className="min-h-screen">
       <Navbar />
       <Hero />
-      <Partners />
       <About />
       <Gallery />
       <CTA />
