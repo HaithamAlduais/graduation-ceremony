@@ -78,9 +78,6 @@ interface MarqueeRowProps {
 }
 
 function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps) {
-  // Duplicate 4x to ensure screen is always fully covered — no gaps
-  const duplicatedImages = [...images, ...images, ...images, ...images];
-
   const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
 
   return (
@@ -90,15 +87,35 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
       <div className="absolute left-0 top-0 h-full w-20 sm:w-32 md:w-44 z-20 pointer-events-none bg-gradient-to-r from-white via-white/90 to-transparent" />
 
       <div
-        className={`flex w-fit ${animationClass}`}
+        className={`flex ${animationClass}`}
         style={{
+          width: "max-content",
           animationPlayState: stopScroll ? "paused" : "running",
           animationDuration: `${duration}ms`,
+          willChange: "transform",
         }}
       >
-        {duplicatedImages.map((src, index) => (
+        {/* Track A — original images */}
+        {images.map((src, index) => (
           <div
-            key={index}
+            key={`a-${index}`}
+            className="w-44 sm:w-56 md:w-72 lg:w-80 mx-1.5 sm:mx-2 md:mx-3 h-32 sm:h-44 md:h-56 lg:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden shadow-sm"
+          >
+            <img
+              src={src}
+              alt={`صورة من حفل التخرج ${index + 1}`}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="eager"
+              draggable="false"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        ))}
+
+        {/* Track B — identical clone for seamless loop */}
+        {images.map((src, index) => (
+          <div
+            key={`b-${index}`}
             className="w-44 sm:w-56 md:w-72 lg:w-80 mx-1.5 sm:mx-2 md:mx-3 h-32 sm:h-44 md:h-56 lg:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden shadow-sm"
           >
             <img
@@ -137,27 +154,27 @@ export default function Gallery() {
         onMouseEnter={() => setStopScroll(true)}
         onMouseLeave={() => setStopScroll(false)}
       >
-        {/* Row 1 — moves to the right */}
+        {/* Row 1 — moves to the left */}
         <MarqueeRow
           images={row1Images}
-          direction="right"
+          direction="left"
           duration={30000}
           stopScroll={stopScroll}
         />
 
-        {/* Row 2 — moves to the left */}
+        {/* Row 2 — moves to the right */}
         <MarqueeRow
           images={row2Images}
-          direction="left"
-          duration={25000}
+          direction="right"
+          duration={35000}
           stopScroll={stopScroll}
         />
 
-        {/* Row 3 — moves to the right */}
+        {/* Row 3 — moves to the left */}
         <MarqueeRow
           images={row3Images}
-          direction="right"
-          duration={35000}
+          direction="left"
+          duration={40000}
           stopScroll={stopScroll}
         />
       </div>

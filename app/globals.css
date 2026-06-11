@@ -123,10 +123,14 @@ body {
 
 .animate-marquee-left {
   animation: marquee-left linear infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .animate-marquee-right {
   animation: marquee-right linear infinite;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Gradient text */
