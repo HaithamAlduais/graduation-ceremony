@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useEffect } from "react";
 
 const allImages = [
   "/images/DSC00024.JPG",
@@ -73,27 +73,77 @@ const row3Images = allImages.slice(40, 60);
 interface MarqueeRowProps {
   images: string[];
   direction: "left" | "right";
-  duration: number;
+  speed: number; // pixels per second
   stopScroll: boolean;
 }
 
-function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps) {
-  const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
+function MarqueeRow({ images, direction, speed, stopScroll }: MarqueeRowProps) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(direction === "left" ? 0 : -1);
+  const rafRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    // Wait for images to load before measuring
+    const setup = () => {
+      const trackWidth = track.scrollWidth / 2;
+      if (trackWidth === 0) return;
+
+      // For "right" direction, start at -trackWidth so first image is visible
+      if (direction === "right" && posRef.current === -1) {
+        posRef.current = -trackWidth;
+      }
+
+      const animate = (timestamp: number) => {
+        if (!lastTimeRef.current) lastTimeRef.current = timestamp;
+        const delta = (timestamp - lastTimeRef.current) / 1000; // seconds
+        lastTimeRef.current = timestamp;
+
+        if (!stopScroll) {
+          const move = speed * delta;
+
+          if (direction === "left") {
+            posRef.current -= move;
+            if (posRef.current <= -trackWidth) {
+              posRef.current += trackWidth;
+            }
+          } else {
+            posRef.current += move;
+            if (posRef.current >= 0) {
+              posRef.current -= trackWidth;
+            }
+          }
+        }
+
+        track.style.transform = `translateX(${posRef.current}px)`;
+        rafRef.current = requestAnimationFrame(animate);
+      };
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    // Small delay to let images render before measuring
+    const timer = setTimeout(setup, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [direction, speed, stopScroll]);
 
   return (
     <div className="overflow-hidden w-full relative">
-      {/* Strong edge vanish / fade gradients */}
+      {/* Edge vanish gradients */}
       <div className="absolute right-0 top-0 h-full w-20 sm:w-32 md:w-44 z-20 pointer-events-none bg-gradient-to-l from-white via-white/90 to-transparent" />
       <div className="absolute left-0 top-0 h-full w-20 sm:w-32 md:w-44 z-20 pointer-events-none bg-gradient-to-r from-white via-white/90 to-transparent" />
 
       <div
-        className={`flex ${animationClass}`}
-        style={{
-          width: "max-content",
-          animationPlayState: stopScroll ? "paused" : "running",
-          animationDuration: `${duration}ms`,
-          willChange: "transform",
-        }}
+        ref={trackRef}
+        className="flex"
+        style={{ width: "max-content", willChange: "transform" }}
       >
         {/* Track A — original images */}
         {images.map((src, index) => (
@@ -134,7 +184,10 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
 }
 
 export default function Gallery() {
-  const [stopScroll, setStopScroll] = useState(false);
+  const stopRef = useRef(false);
+
+  const handleEnter = () => { stopRef.current = true; };
+  const handleLeave = () => { stopRef.current = false; };
 
   return (
     <section id="gallery" className="py-20 md:py-28 bg-white overflow-hidden">
@@ -151,31 +204,31 @@ export default function Gallery() {
 
       <div
         className="space-y-6"
-        onMouseEnter={() => setStopScroll(true)}
-        onMouseLeave={() => setStopScroll(false)}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
       >
-        {/* Row 1 — moves to the left */}
+        {/* Row 1 — moves left */}
         <MarqueeRow
           images={row1Images}
           direction="left"
-          duration={30000}
-          stopScroll={stopScroll}
+          speed={60}
+          stopScroll={stopRef.current}
         />
 
-        {/* Row 2 — moves to the right */}
+        {/* Row 2 — moves right */}
         <MarqueeRow
           images={row2Images}
           direction="right"
-          duration={35000}
-          stopScroll={stopScroll}
+          speed={50}
+          stopScroll={stopRef.current}
         />
 
-        {/* Row 3 — moves to the left */}
+        {/* Row 3 — moves left */}
         <MarqueeRow
           images={row3Images}
           direction="left"
-          duration={40000}
-          stopScroll={stopScroll}
+          speed={40}
+          stopScroll={stopRef.current}
         />
       </div>
     </section>

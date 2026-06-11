@@ -9,6 +9,8 @@ const KSU_GREEN = new THREE.Color("#008DC3");
 const KSU_DARK_GREEN = new THREE.Color("#00608F");
 const KSU_GOLD = new THREE.Color("#C8A415");
 const KSU_LIGHT = new THREE.Color("#E0F2F7");
+const DARK_BASE = new THREE.Color("#18181a");
+const NEAR_BLACK = new THREE.Color("#0a0a0a");
 
 const vertexShader = `
   varying vec2 vUv;
@@ -27,11 +29,12 @@ const fragmentShader = `
   uniform vec3 uColorDarkGreen;
   uniform vec3 uColorGold;
   uniform vec3 uColorLight;
+  uniform vec3 uDarkBase;
+  uniform vec3 uNearBlack;
   varying vec2 vUv;
 
-  // Simplex 2D noise
+  // --- Simplex 2D noise ---
   vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
-
   float snoise(vec2 v) {
     const vec4 C = vec4(0.211324865405187, 0.366025403784439,
              -0.577350269189626, 0.024390243902439);
@@ -59,7 +62,7 @@ const fragmentShader = `
     return 130.0 * dot(m, g);
   }
 
-  // Fractional Brownian Motion
+  // --- Fractional Brownian Motion ---
   float fbm(vec2 p) {
     float value = 0.0;
     float amplitude = 0.5;
@@ -72,47 +75,96 @@ const fragmentShader = `
     return value;
   }
 
-  // Smooth color blending
-  vec3 blendUndertones(vec2 uv, float t) {
-    // Layer 1: Slow deep navy base flow
-    float n1 = fbm(uv * 1.5 + vec2(t * 0.03, t * 0.02));
-    // Layer 2: Medium green/teal flow
-    float n2 = fbm(uv * 2.0 + vec2(t * 0.05 + 100.0, t * 0.04 + 50.0));
-    // Layer 3: Faster gold highlights
-    float n3 = fbm(uv * 3.5 + vec2(t * 0.08 + 200.0, t * 0.06 + 150.0));
-    // Layer 4: Fine detail dark green
-    float n4 = fbm(uv * 5.0 + vec2(t * 0.04 + 300.0, t * 0.03 + 250.0));
+  // --- Layer 1: Swirl (dark base) ---
+  // Creates a slow, dark swirling motion
+  float swirl(vec2 uv, float t) {
+    vec2 centered = uv - 0.5;
+    float angle = atan(centered.y, centered.x);
+    float radius = length(centered);
+    
+    // Slow rotation
+    float rot = angle + t * 0.08 + radius * 2.5;
+    vec2 rotUV = vec2(cos(rot), sin(rot)) * radius;
+    
+    // Multi-octave noise for organic swirl
+    float n = fbm(rotUV * 3.0 + t * 0.05);
+    n += fbm(rotUV * 6.0 - t * 0.03) * 0.5;
+    n += fbm(rotUV * 12.0 + t * 0.02) * 0.25;
+    
+    return n * 0.5 + 0.5;
+  }
 
-    // Normalize noise to 0-1 range
-    n1 = n1 * 0.5 + 0.5;
-    n2 = n2 * 0.5 + 0.5;
-    n3 = n3 * 0.5 + 0.5;
-    n4 = n4 * 0.5 + 0.5;
-
-    // Build undertone layers
-    vec3 color = uColorNavy;
-
-    // Add green undertone (subtle, flowing)
-    float greenMask = smoothstep(0.3, 0.7, n2) * 0.35;
-    color = mix(color, uColorGreen, greenMask);
-
-    // Add dark green depth
-    float darkGreenMask = smoothstep(0.4, 0.8, n4) * 0.25;
-    color = mix(color, uColorDarkGreen, darkGreenMask);
-
-    // Add gold highlights (very subtle, selective)
-    float goldMask = smoothstep(0.6, 0.9, n3) * smoothstep(0.2, 0.5, n1) * 0.2;
-    color = mix(color, uColorGold, goldMask);
-
-    // Add light cyan wisps (very subtle)
-    float lightMask = smoothstep(0.7, 0.95, n1) * 0.08;
-    color = mix(color, uColorLight, lightMask);
-
-    // Vignette for depth
-    float vignette = 1.0 - smoothstep(0.3, 1.2, length(uv - 0.5) * 1.5);
-    color *= 0.85 + vignette * 0.15;
-
+  // --- Layer 2: ChromaFlow (directional color streaks) ---
+  // Creates flowing color in 4 directions
+  vec3 chromaFlow(vec2 uv, float t) {
+    // Directional noise fields
+    float up = fbm(uv * 2.0 + vec2(t * 0.13, 0.0) + vec2(0.0, 50.0));
+    float down = fbm(uv * 2.0 + vec2(-t * 0.11, 0.0) + vec2(0.0, 150.0));
+    float left = fbm(uv * 2.0 + vec2(0.0, t * 0.12) + vec2(100.0, 0.0));
+    float right = fbm(uv * 2.0 + vec2(0.0, -t * 0.09) + vec2(200.0, 0.0));
+    
+    // Normalize to 0-1
+    up = up * 0.5 + 0.5;
+    down = down * 0.5 + 0.5;
+    left = left * 0.5 + 0.5;
+    right = right * 0.5 + 0.5;
+    
+    // Momentum effect - smear the colors (simulated with smoothstep)
+    up = smoothstep(0.35, 0.75, up);
+    down = smoothstep(0.35, 0.75, down);
+    left = smoothstep(0.35, 0.75, left);
+    right = smoothstep(0.35, 0.75, right);
+    
+    // Build color from directional contributions
+    vec3 color = uDarkBase;
+    
+    // Up direction - green
+    color = mix(color, uColorGreen, up * 0.4);
+    // Down direction - dark green
+    color = mix(color, uColorDarkGreen, down * 0.35);
+    // Left direction - gold
+    color = mix(color, uColorGold, left * 0.3);
+    // Right direction - light cyan
+    color = mix(color, uColorLight, right * 0.15);
+    
     return color;
+  }
+
+  // --- Layer 3: FlutedGlass (diagonal refraction lines) ---
+  // Creates the characteristic diagonal prismatic streaks
+  float flutedGlass(vec2 uv, float t) {
+    // Diagonal coordinate system (28 degrees)
+    float angle = 28.0 * 3.14159 / 180.0;
+    vec2 diagonal = vec2(
+      uv.x * cos(angle) + uv.y * sin(angle),
+      -uv.x * sin(angle) + uv.y * cos(angle)
+    );
+    
+    // Frequency 8 - creates the flute spacing
+    float flute = sin(diagonal.x * 8.0 * 3.14159) * 0.5 + 0.5;
+    
+    // Refraction 4 - intensity of the fluting
+    float refraction = pow(flute, 4.0);
+    
+    // Aberration 0.61 - chromatic separation
+    float aberration = snoise(diagonal * 3.0 + t * 0.02) * 0.61;
+    
+    // Combine for the fluted effect
+    float glass = refraction * (0.5 + aberration * 0.5);
+    
+    return glass;
+  }
+
+  // --- Layer 4: FilmGrain (subtle texture) ---
+  float filmGrain(vec2 uv, float t) {
+    float grain = fract(sin(dot(uv * 500.0 + t, vec2(12.9898, 78.233))) * 43758.5453);
+    grain = (grain - 0.5) * 0.05; // strength 0.05
+    
+    // Bias 2 - makes grain more visible in dark areas
+    float luminance = dot(uv, vec2(0.5));
+    grain *= (2.0 - luminance);
+    
+    return grain;
   }
 
   void main() {
@@ -121,12 +173,41 @@ const fragmentShader = `
     vec2 aspectUv = uv;
     aspectUv.x *= uResolution.x / uResolution.y;
 
-    vec3 color = blendUndertones(aspectUv, uTime);
-
-    // Subtle film grain
-    float grain = fract(sin(dot(uv * uTime, vec2(12.9898, 78.233))) * 43758.5453);
-    color += (grain - 0.5) * 0.015;
-
+    // --- Build the 4-layer stack ---
+    
+    // Layer 1: Swirl - dark base
+    float swirlVal = swirl(aspectUv, uTime);
+    vec3 baseColor = mix(uNearBlack, uColorNavy, swirlVal * 0.25);
+    
+    // Layer 2: ChromaFlow - color injection
+    vec3 chromaColor = chromaFlow(aspectUv, uTime);
+    
+    // Blend ChromaFlow over base (very subtle - undertones are subtle)
+    vec3 color = mix(baseColor, chromaColor, 0.35);
+    
+    // Layer 3: FlutedGlass - diagonal refraction streaks
+    float glass = flutedGlass(aspectUv, uTime);
+    
+    // The flutes create bright streaks that pick up the chroma colors
+    float streakIntensity = glass * 0.4;
+    vec3 streakColor = mix(uColorGreen, uColorGold, snoise(aspectUv * 2.0 + uTime * 0.05) * 0.5 + 0.5);
+    color = mix(color, streakColor, streakIntensity);
+    
+    // Additional subtle bright streaks from the fluting
+    float brightStreak = smoothstep(0.7, 0.95, glass) * 0.15;
+    color = mix(color, uColorLight, brightStreak);
+    
+    // Layer 4: FilmGrain - texture
+    float grain = filmGrain(uv, uTime);
+    color += grain;
+    
+    // Vignette for depth (darkens edges)
+    float vignette = 1.0 - smoothstep(0.4, 1.3, length(uv - 0.5) * 1.4);
+    color *= 0.88 + vignette * 0.12;
+    
+    // Final darkening to match the very dark Undertones aesthetic
+    color = mix(color, uNearBlack, 0.15);
+    
     gl_FragColor = vec4(color, 1.0);
   }
 `;
@@ -172,6 +253,8 @@ export default function ShaderBackground() {
       uColorDarkGreen: { value: KSU_DARK_GREEN },
       uColorGold: { value: KSU_GOLD },
       uColorLight: { value: KSU_LIGHT },
+      uDarkBase: { value: DARK_BASE },
+      uNearBlack: { value: NEAR_BLACK },
     };
 
     const material = new THREE.ShaderMaterial({
