@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 const allImages = [
   "/images/DSC00024.JPG",
@@ -101,13 +100,11 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
             key={index}
             className="w-44 sm:w-56 md:w-72 lg:w-80 mx-1.5 sm:mx-2 md:mx-3 h-32 sm:h-44 md:h-56 lg:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden shadow-sm"
           >
-            <Image
+            <img
               src={src}
               alt={`صورة من حفل التخرج ${index + 1}`}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 640px) 176px, (max-width: 768px) 224px, (max-width: 1024px) 288px, 320px"
-              unoptimized
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>

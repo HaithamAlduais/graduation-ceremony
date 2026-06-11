@@ -70,7 +70,7 @@ export default function Navbar() {
               className="bg-ksu-gold hover:bg-ksu-gold/90 text-white rounded-full px-6"
             >
               <a
-                href="http://localhost:5173/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE2NTI0OSwiZXhwIjoxODEyNzAxMjQ5LCJqdGkiOiJhZGJiMGFkYS0wMDA1LTQxZDQtYmQxMi0yOTdmNDE2NzMzMWYifQ.UTsuXBa1Ip7p1fKiZM4XQKibLFLEKX0W0hvfyaeQ8uI"
+                href="https://bufferco.com/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE5MDY2NSwiZXhwIjoxODEyNzI2NjY1LCJqdGkiOiI1MTRhZDNmOC05MTIzLTRlMTAtYjJiYy01YzllZDc5MDFjYTAifQ.kyaMbqkPkwobxQDrOGG6TxZ0DNRJZkckv-ApBBBv7qY"
                 data-buffer-register="true"
               >احجز مقعدك</a>
             </Button>
@@ -107,7 +107,7 @@ export default function Navbar() {
             ))}
             <Button className="w-full bg-ksu-gold hover:bg-ksu-gold/90 text-white rounded-full mt-2">
               <a
-                href="http://localhost:5173/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE2NTI0OSwiZXhwIjoxODEyNzAxMjQ5LCJqdGkiOiJhZGJiMGFkYS0wMDA1LTQxZDQtYmQxMi0yOTdmNDE2NzMzMWYifQ.UTsuXBa1Ip7p1fKiZM4XQKibLFLEKX0W0hvfyaeQ8uI"
+                href="https://bufferco.com/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE5MDY2NSwiZXhwIjoxODEyNzI2NjY1LCJqdGkiOiI1MTRhZDNmOC05MTIzLTRlMTAtYjJiYy01YzllZDc5MDFjYTAifQ.kyaMbqkPkwobxQDrOGG6TxZ0DNRJZkckv-ApBBBv7qY"
                 data-buffer-register="true"
               >احجز مقعدك</a>
             </Button>
