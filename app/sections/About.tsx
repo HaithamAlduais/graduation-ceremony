@@ -28,8 +28,8 @@ const details = [
   {
     icon: Clock,
     title: "الوقت",
-    description: "6:00 مساءً",
-    subtext: "الوصول من 5:00 مساءً",
+    description: "يحدد لاحقاً",
+    subtext: "",
     color: "bg-ksu-navy/10 text-ksu-navy",
   },
 ];

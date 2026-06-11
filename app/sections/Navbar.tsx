@@ -8,8 +8,6 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "#about", label: "تفاصيل الحفل" },
   { href: "#gallery", label: "معرض الصور" },
-  { href: "#timeline", label: "الجدول الزمني" },
-  { href: "#faq", label: "الأسئلة الشائعة" },
 ];
 
 export default function Navbar() {
