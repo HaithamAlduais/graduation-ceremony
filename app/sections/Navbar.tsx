@@ -71,7 +71,10 @@ export default function Navbar() {
               asChild
               className="bg-ksu-gold hover:bg-ksu-gold/90 text-white rounded-full px-6"
             >
-              <a href="#cta">احجز مقعدك</a>
+              <a
+                href="http://localhost:5173/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE2NTI0OSwiZXhwIjoxODEyNzAxMjQ5LCJqdGkiOiJhZGJiMGFkYS0wMDA1LTQxZDQtYmQxMi0yOTdmNDE2NzMzMWYifQ.UTsuXBa1Ip7p1fKiZM4XQKibLFLEKX0W0hvfyaeQ8uI"
+                data-buffer-register="true"
+              >احجز مقعدك</a>
             </Button>
           </div>
 
@@ -105,7 +108,10 @@ export default function Navbar() {
               </a>
             ))}
             <Button className="w-full bg-ksu-gold hover:bg-ksu-gold/90 text-white rounded-full mt-2">
-              <a href="#cta">احجز مقعدك</a>
+              <a
+                href="http://localhost:5173/events/6EFEBwWnrAvCsQ/register?token=eyJldmVudElkIjoiNkVGRUJ3V25yQXZDc1EiLCJzbHVnIjoiZ3JhZHVhdGlvbi1jZXJlbW9ueSIsImlhdCI6MTc4MTE2NTI0OSwiZXhwIjoxODEyNzAxMjQ5LCJqdGkiOiJhZGJiMGFkYS0wMDA1LTQxZDQtYmQxMi0yOTdmNDE2NzMzMWYifQ.UTsuXBa1Ip7p1fKiZM4XQKibLFLEKX0W0hvfyaeQ8uI"
+                data-buffer-register="true"
+              >احجز مقعدك</a>
             </Button>
           </div>
         </div>
