@@ -48,23 +48,23 @@ export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
 
   const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center">
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 min-w-[70px] text-center border border-white/20">
-        <span className="text-2xl md:text-4xl font-bold text-white font-display">
+      <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl px-2 sm:px-3 md:px-4 py-2 sm:py-3 min-w-[52px] sm:min-w-[60px] md:min-w-[70px] text-center border border-white/20">
+        <span className="text-xl sm:text-2xl md:text-4xl font-bold text-white font-display">
           {String(value).padStart(2, "0")}
         </span>
       </div>
-      <span className="text-xs md:text-sm text-white/70 mt-2">{label}</span>
+      <span className="text-[10px] sm:text-xs md:text-sm text-white/70 mt-1 sm:mt-2">{label}</span>
     </div>
   );
 
   return (
-    <div className="flex items-center gap-3 md:gap-4">
+    <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
       <TimeUnit value={timeLeft.days} label="يوم" />
-      <span className="text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
+      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
       <TimeUnit value={timeLeft.hours} label="ساعة" />
-      <span className="text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
+      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
       <TimeUnit value={timeLeft.minutes} label="دقيقة" />
-      <span className="text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
+      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
       <TimeUnit value={timeLeft.seconds} label="ثانية" />
     </div>
   );

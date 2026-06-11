@@ -73,21 +73,21 @@ export default function About() {
 
         {/* Additional info cards */}
         <div className="mt-12 grid md:grid-cols-2 gap-6">
-          <div className="bg-gradient-to-br from-ksu-green to-ksu-dark-green rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-3 font-display">
+          <div className="bg-gradient-to-br from-ksu-green to-ksu-dark-green rounded-2xl p-5 sm:p-8 text-white">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 font-display">
               عن الكلية
             </h3>
-            <p className="text-white/80 leading-relaxed">
+            <p className="text-white/80 leading-relaxed text-sm sm:text-base">
               كلية علوم الحاسب والمعلومات بجامعة الملك سعود من أعرق الكليات
               المتخصصة في مجال التقنية بالمملكة. تخرجت منها أجيال من المبدعين
               والمبتكرين الذين أسهموا في بناء مستقبل رقمي مزدهر للوطن.
             </p>
           </div>
-          <div className="bg-ksu-gray rounded-2xl p-8 border border-ksu-green/10">
-            <h3 className="text-2xl font-bold text-ksu-navy mb-3 font-display">
+          <div className="bg-ksu-gray rounded-2xl p-5 sm:p-8 border border-ksu-green/10">
+            <h3 className="text-xl sm:text-2xl font-bold text-ksu-navy mb-3 font-display">
               أجندة الحفل
             </h3>
-            <ul className="space-y-3 text-ksu-navy/80">
+            <ul className="space-y-3 text-ksu-navy/80 text-sm sm:text-base">
               <li className="flex items-center gap-3">
                 <span className="w-2 h-2 bg-ksu-green rounded-full shrink-0" />
                 استقبال الخريجين والضيوف

@@ -7,8 +7,6 @@ import { MapPin, Mail, Phone, ExternalLink } from "lucide-react";
 const quickLinks = [
   { label: "تفاصيل الحفل", href: "#about" },
   { label: "معرض الصور", href: "#gallery" },
-  { label: "الجدول الزمني", href: "#timeline" },
-  { label: "الأسئلة الشائعة", href: "#faq" },
 ];
 
 const socialLinks = [

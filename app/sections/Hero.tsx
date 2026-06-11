@@ -97,7 +97,7 @@ export default function Hero() {
 
           {/* Gradient Card */}
           <div className="relative">
-            <div className="relative bg-gradient-to-br from-ksu-green via-ksu-dark-green to-ksu-navy rounded-3xl p-8 md:p-10 glow-green overflow-hidden">
+            <div className="relative bg-gradient-to-br from-ksu-green via-ksu-dark-green to-ksu-navy rounded-3xl p-5 sm:p-8 md:p-10 glow-green overflow-hidden">
               {/* Decorative swirl */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-ksu-gold/10 rounded-full blur-2xl" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-xl" />

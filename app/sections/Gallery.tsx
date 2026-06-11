@@ -85,9 +85,9 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
 
   return (
     <div className="overflow-hidden w-full relative">
-      {/* Edge fade gradients */}
-      <div className="absolute right-0 top-0 h-full w-16 sm:w-24 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
-      <div className="absolute left-0 top-0 h-full w-16 sm:w-24 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+      {/* Strong edge vanish / fade gradients */}
+      <div className="absolute right-0 top-0 h-full w-20 sm:w-32 md:w-44 z-20 pointer-events-none bg-gradient-to-l from-white via-white/90 to-transparent" />
+      <div className="absolute left-0 top-0 h-full w-20 sm:w-32 md:w-44 z-20 pointer-events-none bg-gradient-to-r from-white via-white/90 to-transparent" />
 
       <div
         className={`flex w-fit ${animationClass}`}
@@ -99,14 +99,14 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
         {duplicatedImages.map((src, index) => (
           <div
             key={index}
-            className="w-64 sm:w-72 md:w-80 mx-2 sm:mx-3 h-48 sm:h-56 md:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden"
+            className="w-44 sm:w-56 md:w-72 lg:w-80 mx-1.5 sm:mx-2 md:mx-3 h-32 sm:h-44 md:h-56 lg:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden shadow-sm"
           >
             <Image
               src={src}
               alt={`صورة من حفل التخرج ${index + 1}`}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 320px"
+              sizes="(max-width: 640px) 176px, (max-width: 768px) 224px, (max-width: 1024px) 288px, 320px"
               unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
