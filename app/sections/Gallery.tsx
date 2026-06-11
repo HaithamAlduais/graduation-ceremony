@@ -1,83 +1,166 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-const galleryImages = [
-  {
-    src: "/images/grad-1.jpg",
-    alt: "حفل تخرج سابق - لحظات التكريم",
-    category: "all",
-  },
-  {
-    src: "/images/grad-2.jpg",
-    alt: "حفل تخرج سابق - الخريجون",
-    category: "all",
-  },
-  {
-    src: "/images/grad-3.jpg",
-    alt: "كلية علوم الحاسب والمعلومات",
-    category: "all",
-  },
-  {
-    src: "/images/grad-4.jpg",
-    alt: "حفل تخرج سابق - الاحتفال",
-    category: "all",
-  },
-  {
-    src: "/images/grad-5.jpg",
-    alt: "حفل تخرج سابق - لحظات فرح",
-    category: "all",
-  },
+const allImages = [
+  "/images/DSC00024.JPG",
+  "/images/DSC00026.JPG",
+  "/images/DSC00037.JPG",
+  "/images/DSC00049.JPG",
+  "/images/DSC00050.JPG",
+  "/images/DSC00056.JPG",
+  "/images/DSC00064.JPG",
+  "/images/DSC00067.JPG",
+  "/images/DSC00073.JPG",
+  "/images/DSC00077.JPG",
+  "/images/DSC00079.JPG",
+  "/images/DSC00082.JPG",
+  "/images/DSC00083.JPG",
+  "/images/DSC00097.JPG",
+  "/images/DSC00100.JPG",
+  "/images/DSC00103.JPG",
+  "/images/DSC00107.JPG",
+  "/images/DSC00112.JPG",
+  "/images/DSC00115.JPG",
+  "/images/DSC00118.JPG",
+  "/images/DSC00121.JPG",
+  "/images/DSC00123.JPG",
+  "/images/DSC00153.JPG",
+  "/images/DSC00159.JPG",
+  "/images/DSC00163.JPG",
+  "/images/DSC00164.JPG",
+  "/images/DSC00167.JPG",
+  "/images/DSC00189.JPG",
+  "/images/DSC00193.JPG",
+  "/images/DSC00199.JPG",
+  "/images/DSC00203.JPG",
+  "/images/DSC00304.JPG",
+  "/images/DSC00309.JPG",
+  "/images/DSC00431.JPG",
+  "/images/DSC00434.JPG",
+  "/images/DSC00436.JPG",
+  "/images/DSC00437.JPG",
+  "/images/DSC00442.JPG",
+  "/images/DSC00444.JPG",
+  "/images/DSC00445.JPG",
+  "/images/DSC00446.JPG",
+  "/images/DSC00448.JPG",
+  "/images/DSC00449.JPG",
+  "/images/DSC00458.JPG",
+  "/images/DSC00459.JPG",
+  "/images/DSC00463.JPG",
+  "/images/DSC00465.JPG",
+  "/images/DSC00470.JPG",
+  "/images/DSC00475.JPG",
+  "/images/DSC00477.JPG",
+  "/images/fifth image.JPG",
+  "/images/first image.JPG",
+  "/images/forth image.JPG",
+  "/images/grad-1.jpg",
+  "/images/grad-2.jpg",
+  "/images/grad-3.jpg",
+  "/images/grad-4.jpg",
+  "/images/grad-5.jpg",
+  "/images/second image.JPG",
+  "/images/third image (our college).jpg",
 ];
 
-export default function Gallery() {
+// Split into 3 rows
+const row1Images = allImages.slice(0, 20);
+const row2Images = allImages.slice(20, 40);
+const row3Images = allImages.slice(40, 60);
+
+interface MarqueeRowProps {
+  images: string[];
+  direction: "left" | "right";
+  duration: number;
+  stopScroll: boolean;
+}
+
+function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps) {
+  const duplicatedImages = [...images, ...images];
+
+  const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
+
   return (
-    <section id="gallery" className="py-20 md:py-28 bg-ksu-gray">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+    <div className="overflow-hidden w-full relative">
+      {/* Edge fade gradients */}
+      <div className="absolute right-0 top-0 h-full w-16 sm:w-24 z-10 pointer-events-none bg-gradient-to-l from-white to-transparent" />
+      <div className="absolute left-0 top-0 h-full w-16 sm:w-24 z-10 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+
+      <div
+        className={`flex w-fit ${animationClass}`}
+        style={{
+          animationPlayState: stopScroll ? "paused" : "running",
+          animationDuration: `${duration}ms`,
+        }}
+      >
+        {duplicatedImages.map((src, index) => (
+          <div
+            key={index}
+            className="w-64 sm:w-72 md:w-80 mx-2 sm:mx-3 h-48 sm:h-56 md:h-64 relative group flex-shrink-0 rounded-xl overflow-hidden"
+          >
+            <Image
+              src={src}
+              alt={`صورة من حفل التخرج ${index + 1}`}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 320px"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Gallery() {
+  const [stopScroll, setStopScroll] = useState(false);
+
+  return (
+    <section id="gallery" className="py-20 md:py-28 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-ksu-navy mb-4 font-display">
-            معرض الصور
+            لحظات من حفل التخرج
           </h2>
           <p className="text-lg text-ksu-navy/60 max-w-2xl mx-auto">
-            لحظات لا تُنسى من حفلات التخرج السابقة
+            صور تذكارية من احتفالات التخرج السابقة
           </p>
         </div>
+      </div>
 
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="mx-auto mb-8 flex justify-center">
-            <TabsTrigger value="all">جميع الصور</TabsTrigger>
-          </TabsList>
+      <div
+        className="space-y-6"
+        onMouseEnter={() => setStopScroll(true)}
+        onMouseLeave={() => setStopScroll(false)}
+      >
+        {/* Row 1 — moves to the right */}
+        <MarqueeRow
+          images={row1Images}
+          direction="right"
+          duration={40000}
+          stopScroll={stopScroll}
+        />
 
-          <TabsContent value="all" className="mt-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {galleryImages.map((image, index) => (
-                <div
-                  key={index}
-                  className={`group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-lg transition-all duration-300 ${
-                    index === 0 ? "sm:col-span-2 lg:col-span-2" : ""
-                  }`}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ksu-navy/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 right-0 left-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white font-medium text-sm">
-                        {image.alt}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+        {/* Row 2 — moves to the left */}
+        <MarqueeRow
+          images={row2Images}
+          direction="left"
+          duration={35000}
+          stopScroll={stopScroll}
+        />
+
+        {/* Row 3 — moves to the right */}
+        <MarqueeRow
+          images={row3Images}
+          direction="right"
+          duration={45000}
+          stopScroll={stopScroll}
+        />
       </div>
     </section>
   );
