@@ -3,14 +3,14 @@
 import Image from "next/image";
 
 const partners = [
-  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png" },
-  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png" },
-  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png" },
-  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png" },
-  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png" },
-  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png" },
-  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png" },
-  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png" },
+  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png", width: 104, height: 40 },
+  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png", width: 26, height: 40 },
+  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png", width: 104, height: 40 },
+  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png", width: 26, height: 40 },
+  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png", width: 104, height: 40 },
+  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png", width: 26, height: 40 },
+  { name: "جامعة الملك سعود", logo: "/logos/ksu-master.png", width: 104, height: 40 },
+  { name: "كلية علوم الحاسب", logo: "/logos/ksu-shield.png", width: 26, height: 40 },
 ];
 
 export default function Partners() {
@@ -32,9 +32,10 @@ export default function Partners() {
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={40}
-                height={40}
+                width={partner.width}
+                height={partner.height}
                 className="h-10 w-auto object-contain"
+                style={{ width: "auto" }}
               />
               <span className="text-ksu-navy font-medium whitespace-nowrap text-sm">
                 {partner.name}
@@ -51,9 +52,10 @@ export default function Partners() {
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={40}
-                height={40}
+                width={partner.width}
+                height={partner.height}
                 className="h-10 w-auto object-contain"
+                style={{ width: "auto" }}
               />
               <span className="text-ksu-navy font-medium whitespace-nowrap text-sm">
                 {partner.name}

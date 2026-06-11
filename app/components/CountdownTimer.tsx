@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface CountdownTimerProps {
   targetDate: Date;
+  className?: string;
 }
 
 interface TimeLeft {
@@ -13,7 +16,48 @@ interface TimeLeft {
   seconds: number;
 }
 
-export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
+const timeUnits: Array<{ key: keyof TimeLeft; label: string }> = [
+  { key: "days", label: "يوم" },
+  { key: "hours", label: "ساعة" },
+  { key: "minutes", label: "دقيقة" },
+  { key: "seconds", label: "ثانية" },
+];
+
+function calculateTimeLeft(targetDate: Date): TimeLeft {
+  const difference = targetDate.getTime() - new Date().getTime();
+
+  if (difference <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / 1000 / 60) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+  };
+}
+
+function TimeUnit({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="min-w-0 flex-1">
+      <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/[0.13] px-1.5 py-2.5 text-center shadow-inner shadow-white/10 sm:rounded-2xl sm:px-3 sm:py-4">
+        <div className="absolute inset-x-3 top-0 h-px bg-white/50" />
+        <span className="block text-2xl font-bold leading-none text-white font-display tabular-nums sm:text-4xl md:text-5xl">
+          {String(value).padStart(2, "0")}
+        </span>
+      </div>
+      <span className="mt-2 block text-center text-[11px] font-medium text-white/75 sm:text-sm">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+export default function CountdownTimer({
+  targetDate,
+  className,
+}: CountdownTimerProps) {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -22,50 +66,38 @@ export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
   });
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = targetDate.getTime() - new Date().getTime();
-
-      if (difference > 0) {
-        return {
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        };
-      }
-
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    const tick = () => {
+      setTimeLeft(calculateTimeLeft(targetDate));
     };
 
-    setTimeLeft(calculateTimeLeft());
-
+    const firstTick = window.setTimeout(tick, 0);
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      tick();
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      window.clearTimeout(firstTick);
+      clearInterval(timer);
+    };
   }, [targetDate]);
 
-  const TimeUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center">
-      <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl px-2 sm:px-3 md:px-4 py-2 sm:py-3 min-w-[52px] sm:min-w-[60px] md:min-w-[70px] text-center border border-white/20">
-        <span className="text-xl sm:text-2xl md:text-4xl font-bold text-white font-display">
-          {String(value).padStart(2, "0")}
-        </span>
-      </div>
-      <span className="text-[10px] sm:text-xs md:text-sm text-white/70 mt-1 sm:mt-2">{label}</span>
-    </div>
-  );
-
   return (
-    <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-      <TimeUnit value={timeLeft.days} label="يوم" />
-      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
-      <TimeUnit value={timeLeft.hours} label="ساعة" />
-      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
-      <TimeUnit value={timeLeft.minutes} label="دقيقة" />
-      <span className="text-xl sm:text-2xl md:text-3xl text-ksu-gold font-bold">:</span>
-      <TimeUnit value={timeLeft.seconds} label="ثانية" />
+    <div
+      className={cn(
+        "grid w-full grid-cols-4 items-start gap-2 sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] sm:gap-3",
+        className,
+      )}
+    >
+      {timeUnits.map((unit, index) => (
+        <div key={unit.key} className="contents">
+          <TimeUnit value={timeLeft[unit.key]} label={unit.label} />
+          {index < timeUnits.length - 1 ? (
+            <span className="hidden pt-3 text-xl font-bold leading-none text-ksu-gold sm:block sm:pt-5 sm:text-3xl">
+              :
+            </span>
+          ) : null}
+        </div>
+      ))}
     </div>
   );
 }
