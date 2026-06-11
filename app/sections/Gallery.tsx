@@ -78,7 +78,8 @@ interface MarqueeRowProps {
 }
 
 function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps) {
-  const duplicatedImages = [...images, ...images];
+  // Duplicate 4x to ensure screen is always fully covered — no gaps
+  const duplicatedImages = [...images, ...images, ...images, ...images];
 
   const animationClass = direction === "left" ? "animate-marquee-left" : "animate-marquee-right";
 
@@ -105,6 +106,7 @@ function MarqueeRow({ images, direction, duration, stopScroll }: MarqueeRowProps
               alt={`صورة من حفل التخرج ${index + 1}`}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               loading="eager"
+              draggable="false"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
@@ -139,7 +141,7 @@ export default function Gallery() {
         <MarqueeRow
           images={row1Images}
           direction="right"
-          duration={40000}
+          duration={30000}
           stopScroll={stopScroll}
         />
 
@@ -147,7 +149,7 @@ export default function Gallery() {
         <MarqueeRow
           images={row2Images}
           direction="left"
-          duration={35000}
+          duration={25000}
           stopScroll={stopScroll}
         />
 
@@ -155,7 +157,7 @@ export default function Gallery() {
         <MarqueeRow
           images={row3Images}
           direction="right"
-          duration={45000}
+          duration={35000}
           stopScroll={stopScroll}
         />
       </div>

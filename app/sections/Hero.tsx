@@ -5,40 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, ArrowLeft } from "lucide-react";
 import CountdownTimer from "../components/CountdownTimer";
+import ShaderBackground from "../components/ShaderBackground";
 
 export default function Hero() {
   const ceremonyDate = new Date("2026-06-29T18:00:00+03:00");
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ksu-navy">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-ksu-green/40 via-ksu-navy to-ksu-dark-green/60" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Shader background */}
+      <ShaderBackground />
 
-      {/* Decorative pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern
-              id="grid"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 40 0 L 0 0 0 40"
-                fill="none"
-                stroke="white"
-                strokeWidth="0.5"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
-      {/* Glow effects */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-ksu-green/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-ksu-gold/10 rounded-full blur-3xl" />
+      {/* Subtle gradient overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ksu-navy/30 via-transparent to-ksu-navy/50 z-[1]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -145,7 +123,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
           <div className="w-1.5 h-1.5 bg-white rounded-full" />
         </div>

@@ -35,10 +35,10 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --ksu-green: #006C35;
-  --ksu-dark-green: #004d26;
+  --ksu-green: #008DC3;
+  --ksu-dark-green: #00608F;
   --ksu-gold: #C8A415;
-  --ksu-light-green: #e8f5e9;
+  --ksu-light-green: #E0F2F7;
   --ksu-navy: #0f172a;
   --ksu-white: #ffffff;
   --ksu-gray: #f8fafc;
@@ -47,10 +47,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-ksu-green: #006C35;
-  --color-ksu-dark-green: #004d26;
+  --color-ksu-green: #008DC3;
+  --color-ksu-dark-green: #00608F;
   --color-ksu-gold: #C8A415;
-  --color-ksu-light-green: #e8f5e9;
+  --color-ksu-light-green: #E0F2F7;
   --color-ksu-navy: #0f172a;
   --color-ksu-white: #ffffff;
   --color-ksu-gray: #f8fafc;
@@ -80,12 +80,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #006C35;
+  background: #008DC3;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #004d26;
+  background: #00608F;
 }
 
 /* Marquee animation */
@@ -131,7 +131,7 @@ body {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #006C35, #C8A415);
+  background: linear-gradient(135deg, #008DC3, #C8A415);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -139,7 +139,7 @@ body {
 
 /* Glow effect */
 .glow-green {
-  box-shadow: 0 0 60px rgba(0, 108, 53, 0.3);
+  box-shadow: 0 0 60px rgba(0, 141, 195, 0.3);
 }
 
 .glow-gold {
