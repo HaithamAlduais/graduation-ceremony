@@ -136,9 +136,6 @@ export default function Gallery() {
           <h2 className="mb-4 text-3xl font-bold text-ksu-navy font-display md:text-4xl">
             لحظات من حفل التخرج
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-ksu-navy/60 sm:text-lg">
-            صور تذكارية من احتفالات التخرج السابقة
-          </p>
         </div>
       </div>
 
