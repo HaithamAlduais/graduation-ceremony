@@ -9,11 +9,11 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-8 border-b border-white/10 pb-8 text-center md:flex-row md:text-right">
           <div className="flex flex-col items-center gap-4 md:flex-row md:items-center">
             <Image
-              src="/logos/ksu-shield-white.png"
-              alt="شعار جامعة الملك سعود"
-              width={31}
-              height={48}
-              className="h-12 w-auto"
+              src="/logos/ceremony-logo-white-gold.png"
+              alt="شعار حفل التخرج"
+              width={156}
+              height={100}
+              className="h-16 w-auto"
               style={{ width: "auto" }}
             />
             <div>

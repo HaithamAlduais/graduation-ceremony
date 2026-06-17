@@ -39,11 +39,15 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between md:h-20">
           <a href="#" className="flex shrink-0 items-center gap-2">
             <Image
-              src={scrolled ? "/logos/ksu-shield.png" : "/logos/ksu-shield-white.png"}
-              alt="شعار جامعة الملك سعود"
-              width={26}
-              height={40}
-              className="h-10 w-auto"
+              src={
+                scrolled
+                  ? "/logos/ceremony-logo-gold.png"
+                  : "/logos/ceremony-logo-white-gold.png"
+              }
+              alt="شعار حفل التخرج"
+              width={156}
+              height={100}
+              className="h-12 w-auto md:h-14"
               style={{ width: "auto" }}
               priority
             />

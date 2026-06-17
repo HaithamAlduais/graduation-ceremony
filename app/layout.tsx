@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "حفل تخرج كلية علوم الحاسب والمعلومات - جامعة الملك سعود",
     description:
       "حفل تخرج كلية علوم الحاسب والمعلومات بجامعة الملك سعود - 29 يونيو 2026 - قاعة حمد الجاسر",
-    images: ["/logos/ksu-master.png"],
+    images: ["/logos/ceremony-logo-gold.png"],
   },
 };
 
