@@ -92,13 +92,13 @@ export default function About() {
           </p>
         </div>
 
-        <div className="grid gap-5 md:gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(280px,0.75fr)]">
+        <div className="grid gap-5 md:gap-6 lg:grid-cols-3">
           <a
             href={hallLocation.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="فتح موقع قاعة حمد الجاسر في الخرائط"
-            className="group block focus:outline-none"
+            className="group order-1 block focus:outline-none lg:order-2 lg:col-span-2"
           >
             <LiquidGlassCard
               glowIntensity="md"
@@ -181,7 +181,7 @@ export default function About() {
             </LiquidGlassCard>
           </a>
 
-          <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-1">
+          <div className="order-2 grid gap-5 sm:grid-cols-3 lg:order-1 lg:col-span-3">
             {details.map((detail) => (
               <LiquidGlassCard
                 key={detail.title}
@@ -208,24 +208,24 @@ export default function About() {
               </LiquidGlassCard>
             ))}
           </div>
-        </div>
 
-        <LiquidGlassCard
-          glowIntensity="md"
-          shadowIntensity="md"
-          blurIntensity="lg"
-          borderRadius="22px"
-          className="mx-auto mt-12 max-w-4xl border-white/25 bg-gradient-to-br from-ksu-green/90 to-ksu-dark-green/92 p-6 text-white sm:p-8"
-        >
-          <h3 className="mb-4 text-xl font-bold font-display sm:text-2xl">
-            عن الكلية
-          </h3>
-          <p className="text-sm leading-relaxed text-white/86 sm:text-base">
-            كلية علوم الحاسب والمعلومات بجامعة الملك سعود من أعرق الكليات
-            المتخصصة في مجال التقنية بالمملكة. تخرجت منها أجيال من المبدعين
-            والمبتكرين الذين أسهموا في بناء مستقبل رقمي مزدهر للوطن.
-          </p>
-        </LiquidGlassCard>
+          <LiquidGlassCard
+            glowIntensity="md"
+            shadowIntensity="md"
+            blurIntensity="lg"
+            borderRadius="22px"
+            className="order-3 flex min-h-[350px] flex-col justify-center border-white/25 bg-gradient-to-br from-ksu-green/90 to-ksu-dark-green/92 p-6 text-white sm:p-8 lg:col-span-1"
+          >
+            <h3 className="mb-4 text-xl font-bold font-display sm:text-2xl">
+              عن الكلية
+            </h3>
+            <p className="text-sm leading-relaxed text-white/86 sm:text-base">
+              كلية علوم الحاسب والمعلومات بجامعة الملك سعود من أعرق الكليات
+              المتخصصة في مجال التقنية بالمملكة. تخرجت منها أجيال من المبدعين
+              والمبتكرين الذين أسهموا في بناء مستقبل رقمي مزدهر للوطن.
+            </p>
+          </LiquidGlassCard>
+        </div>
       </div>
     </section>
   );

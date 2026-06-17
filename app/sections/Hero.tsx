@@ -29,7 +29,9 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.12] font-display">
               حفل تخرج
               <br />
-              <span className="text-ksu-gold">كلية علوم الحاسب</span>
+              <span className="hero-adaptive-gold text-ksu-gold">
+                كلية علوم الحاسب
+              </span>
               <br />
               والمعلومات
             </h1>
